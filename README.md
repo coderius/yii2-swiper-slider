@@ -1,4 +1,4 @@
-# Yii2 swiper slider widget#
+# Yii2 swiper slider widget
 
 
 

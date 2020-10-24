@@ -17,6 +17,10 @@ use Closure;
 
 class SwiperSlider extends Widget
 {
+    public function run()
+    {
+        echo __CLASS__;
+    }
     
     
 }
