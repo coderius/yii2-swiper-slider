@@ -17,10 +17,48 @@ use Closure;
 
 class SwiperSlider extends Widget
 {
+    /**
+     * If is allowed cdn base url to assets
+     *
+     * @var boolean
+     */
+    public $cdn = false;
+
+    /**
+     * Cdn base url
+     *
+     * @var string
+     */
+    protected $cdnBaseUrl = "https://unpkg.com/swiper";
+    
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        //code
+    }    
+    
+    /**
+     * @inheritdoc
+     */
     public function run()
     {
-        echo __CLASS__;
+        $this->registerAssets();
     }
     
-    
+    /**
+     * Processed registration all needed assets to widget
+     *
+     * @return void
+     */
+    protected function registerAssets(){
+        $view = $this->getView();
+        $bundle = SwiperSliderAsset::register($view);
+        false === $this->cdn ? : $bundle->fromCdn($this->cdnBaseUrl);
+        // $view->registerJs($plugin);
+    }
+
+
 }
