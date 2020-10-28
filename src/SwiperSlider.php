@@ -15,6 +15,7 @@
 
 namespace coderius\swiperslider;
 
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Json;
@@ -25,6 +26,9 @@ use coderius\swiperslider\JsHelper;
 
 class SwiperSlider extends Widget
 {
+    const EVENT_BEFORE_REGISTER_DEFAULT_ASSET = "beforeRegisterDefaultAsset";
+    const EVENT_AFTER_REGISTER_DEFAULT_ASSET = "afterRegisterDefaultAsset";
+    
     const WIDGET_NAME = "swiper";
     const JS_PLUGIN_NAME = "Swiper";
 
@@ -36,17 +40,28 @@ class SwiperSlider extends Widget
     const BUTTON_NEXT = 'button-next';
     const SCROLLBAR = 'scrollbar';
 
+    const ASSET_DEFAULT = 'coderius\swiperslider\SwiperSliderAsset';
+    
     /**
      * Generate css class name for item
      *
      * @param string $itemName
+     * @param boolean $prefix
      * @return string
      */
-    protected function getItemCssClass(string $itemName)
+    public static function getItemCssClass(string $itemName, $prefix = true)
     {
-        return self::WIDGET_NAME . "-" . $itemName;
+        $prefix = $prefix ? "." : "";
+        return $prefix . self::WIDGET_NAME . "-" . $itemName;
     }
   
+    /**
+     * Widget options like inline styles etc.
+     *
+     * @var array
+     */
+    public $options = [];
+
     /**
      * Options in js plugin instance
      *
@@ -55,25 +70,11 @@ class SwiperSlider extends Widget
     public $clientOptions = [];
 
     /**
-     * And if we need scrollbar
-     *
-     * @var boolean
-     */
-    public $showScrollbar = false;
-
-    /**
-     * If we need pagination
-     *
-     * @var boolean
-     */
-    public $showPagination = true;
-
-    /**
      * If is allowed cdn base url to assets
      *
      * @var boolean
      */
-    public $cdn = false;
+    public $assetFromCdn = false;
 
     /**
      * Sliders
@@ -83,18 +84,13 @@ class SwiperSlider extends Widget
     public $slides = [];
 
     /**
-     * Inline styles
-     *
-     * @var array
-     */
-    public $inlineStyles = [];
-
-    /**
      * Uniq widget name
      *
      * @var string
      */
     protected $widgetId;
+
+    protected $slideClass = "coderius\swiperslider\SlideDefault";
 
     /**
      * Cdn base url
@@ -111,6 +107,16 @@ class SwiperSlider extends Widget
         parent::init();
         
         $this->widgetId = $this->getId() . '-' . static::WIDGET_NAME;
+
+        //If we need scrollbar
+        if(!isset($this->options['show-scrollbar']) || null ===  $this->options['show-scrollbar']){
+            $this->options['show-scrollbar'] = false;
+        }
+        
+        //If we need pagination
+        if(!isset($this->options['show-pagination']) || null ===  $this->options['show-pagination']){
+            $this->options['show-pagination'] = true;
+        }
         
 
         if ($this->slides === null || empty($this->slides)) {
@@ -130,14 +136,23 @@ class SwiperSlider extends Widget
     
     /**
      * Processed registration all needed assets to widget
-     *
+     * We can register custom asset by CustomAsset::register($view) by event hendler in widget options
+     * echo SwiperSlider::widget([
+     *      'on ' . SwiperSlider::EVENT_AFTER_REGISTER_DEFAULT_ASSET => function(){
+     *                  CustomAsset::register($view)
+     *       },
+     *  ... 
+     *  ]);
+     * 
      * @return void
      */
     protected function registerAssets(){
         $view = $this->getView();
-        $bundle = SwiperSliderAsset::register($view);
-        false === $this->cdn ? : $bundle->fromCdn($this->cdnBaseUrl);
-        // $view->registerJs($plugin);
+        $this->trigger(self::EVENT_BEFORE_REGISTER_DEFAULT_ASSET);
+        $dafaultAsset = static::ASSET_DEFAULT;
+        $bundle = $dafaultAsset::register($view);
+        false === $this->assetFromCdn ? : $bundle->fromCdn($this->cdnBaseUrl);
+        $this->trigger(self::EVENT_AFTER_REGISTER_DEFAULT_ASSET);
     }
 
     /**
@@ -148,9 +163,26 @@ class SwiperSlider extends Widget
     protected function makeHtml(){
 
         //Slides
+        //S
         $slides = [];
+        $index = 0;
         foreach($this->slides as $slide){
-            $slides[] = $this->getHtmlElem(static::SLIDE, [], $slide);
+            if(is_string($slide)){
+                $htmlSlide = $this->getHtmlElem(static::SLIDE, [], $slide);
+            } else {
+                //Mergin current slide attributes with global widget options styles pasted to all elements on this type
+                //Example in widget init options -  `SwiperSlider::SLIDE => ["text-align" => "center"]`
+                $slide['options'] = $this->mergeGlobalStyles(static::SLIDE, $slide['options']);
+                $inctanseSlide = \Yii::createObject(array_merge([
+                    'class' => $this->slideClass ?: SlideDefault::class,
+                    'slider' => $this,
+                ], $slide));
+                //Invoke function in instance SlideDefault::renderSlideHtml
+                $htmlSlide = $inctanseSlide->renderSlideHtml("div", $index);
+            }
+
+            $slides[] = $htmlSlide;
+            $index++;
         }
         $slides = "\n\t\t" . implode("\n\t\t", $slides) . "\n\t";
 
@@ -172,7 +204,7 @@ class SwiperSlider extends Widget
         $content[] = $wrapper;
 
         // And if we need pagination
-        if($this->showPagination){
+        if($this->options['show-pagination']){
             $content[] = $pagination;
         }
 
@@ -180,7 +212,7 @@ class SwiperSlider extends Widget
         $content[] = $buttonNext;
 
         // And if we need scrollbar
-        if($this->showScrollbar){
+        if($this->options['show-scrollbar']){
             $content[] = $scrollbar;
         }
         
@@ -206,10 +238,37 @@ class SwiperSlider extends Widget
      */
     protected function getHtmlElem(string $itemName, $options = [], $content = '', $tag = 'div')
     {
-        $options = ArrayHelper::merge(['class' => $this->getItemCssClass($itemName)], $options);
-        $style = !empty($this->inlineStyles[$itemName]) ? $this->inlineStyles[$itemName] : null;
-        Html::addCssStyle($options, $style);
+        $options = $this->mergeGlobalStyles($itemName, $options);
         return Html::tag($tag, $content, $options);
+    }
+
+    /**
+     * Merge options array with default params like `class` and global options pasted when widget created
+     * Example: 
+     * echo SwiperSlider::widget([
+     * ...
+     * 'options' => [
+     *      'styles' => [
+     *          SwiperSlider::CONTAINER => ["height" => "100px"],
+     *          SwiperSlider::SLIDE => ["text-align" => "center"],
+     *      ],
+     *      'show-scrollbar' => true,
+     *  ],
+     * ...
+     * ]);
+     * 
+     * In this example we merge options for html elements `container`  and  `slide` and default created options `class` for them getted
+     * by function static::getItemCssClass($itemName, false)
+     *
+     * @param string $itemName
+     * @param [type] $options
+     * @return void
+     */
+    protected function mergeGlobalStyles(string $itemName, $options){
+        $options = ArrayHelper::merge(['class' => static::getItemCssClass($itemName, false)], $options);
+        $style = !empty($this->options['styles'][$itemName]) ? $this->options['styles'][$itemName] : null;
+        Html::addCssStyle($options, $style);
+        return $options;
     }
 
     /**
@@ -223,14 +282,14 @@ class SwiperSlider extends Widget
         $pluginParams[] = JsHelper::addString("#" . $this->widgetId);
         $defaultOptions = [
             "loop" => true,
-            "pagination" => ["el" => "." . $this->getItemCssClass(static::PAGINATION)],
+            "pagination" => ["el" => static::getItemCssClass(static::PAGINATION)],
             "navigation" => [
-                    "nextEl" => "." . $this->getItemCssClass(static::BUTTON_NEXT),
-                    "prevEl" => "." . $this->getItemCssClass(static::BUTTON_PREV),
+                    "nextEl" => static::getItemCssClass(static::BUTTON_NEXT),
+                    "prevEl" => static::getItemCssClass(static::BUTTON_PREV),
             ],
         ];
         $clientOptions = ArrayHelper::merge($defaultOptions, $this->clientOptions);
-        $pluginParams[] = JsHelper::literalObject($clientOptions);
+        $pluginParams[] = Json::encode($clientOptions);
         $pluginInstance = JsHelper::newJsObject(static::JS_PLUGIN_NAME, $pluginParams);
         $jsVar = JsHelper::initVar("mySwiper", $pluginInstance);
 

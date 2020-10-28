@@ -28,7 +28,7 @@ class JsHelper
      * initVar function
      *
      * @param string $name
-     * @param string $value
+     * @param object|string $value . Object type: \yii\web\JsExpression
      * @return string
      */
     public static function initVar(string $name, string $value)
@@ -52,12 +52,12 @@ class JsHelper
      *
      * @param string $instanceName
      * @param array $params
-     * @return string
+     * @return string \yii\web\JsExpression. See https://www.yiiframework.com/doc/api/2.0/yii-web-jsexpression for more information about it.
      */
     public static function newJsObject(string $instanceName, $params = [])
     {
         $params = implode(",", $params);
-        return "new {$instanceName}({$params})";
+        return new \yii\web\JsExpression("new {$instanceName}({$params})");
     }
 
     /**
