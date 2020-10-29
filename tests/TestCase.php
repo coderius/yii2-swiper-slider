@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Action;
 use yii\base\Module;
 use yii\di\Container;
+use yii\web\View;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 /**
@@ -17,7 +18,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
         $this->mockWebApplication();
-        $this->setupTestDbData();
     }
     /**
      * Clean up after test.
@@ -39,9 +39,20 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             'basePath' => __DIR__,
             'vendorPath' => dirname(__DIR__) . '/vendor',
             'aliases' => [
-                '@bower' => '@vendor/bower',
-                '@npm' => '@vendor/npm',
-                '@uploadsPath' => '@tests/data/uploads',
+                '@bower' => '@vendor/bower-asset',
+                    '@npm' => '@vendor/npm-asset',
+            ],
+            'components' => [
+                'request' => [
+                    'cookieValidationKey' => 'wefJDF8sfdsfSDefwqdxj9oq',
+                    'hostInfo' => 'http://domain.com',
+                    'scriptUrl' => 'index.php',
+                ],
+                'assetManager' => [
+                    'class' => 'tests\AssetManager',
+                    'basePath' => '@tests/assets',
+                    'baseUrl' => '/',
+                ]
             ],
             
         ], $config));
@@ -89,6 +100,25 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $expected = str_replace("\r\n", "\n", $expected);
         $actual = str_replace("\r\n", "\n", $actual);
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Creates a view for testing purposes
+     *
+     * @return View
+     */
+    protected function getView()
+    {
+        $view = new View();
+        $view->setAssetManager(
+            new AssetManager(
+                [
+                    'basePath' => '@tests/assets',
+                    'baseUrl' => '/',
+                ]
+            )
+        );
+        return $view;
     }
 
     /**
