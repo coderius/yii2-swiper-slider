@@ -62,12 +62,35 @@ class SwiperSlider extends Widget
      */
     public $options = [];
 
+
+
+    /**
+     * If we need pagination
+     *
+     * @var boolean
+     */
+    public $showPagination = true;
+
+    /**
+     * If we need scrollbar
+     *
+     * @var boolean
+     */
+    public $showScrollbar = false;
+
     /**
      * Options in js plugin instance
      *
      * @var array
      */
     public $clientOptions = [];
+
+    /**
+     * Default options for js plugin
+     *
+     * @var array
+     */
+    public $defaultClientOptions = [];
 
     /**
      * If is allowed cdn base url to assets
@@ -106,18 +129,16 @@ class SwiperSlider extends Widget
     {
         parent::init();
         
-        $this->widgetId = $this->getId() . '-' . static::WIDGET_NAME;
+        $this->defaultClientOptions = [
+            "loop" => true,
+            "pagination" => ["el" => static::getItemCssClass(static::PAGINATION)],
+            "navigation" => [
+                    "nextEl" => static::getItemCssClass(static::BUTTON_NEXT),
+                    "prevEl" => static::getItemCssClass(static::BUTTON_PREV),
+            ],
+        ];
 
-        //If we need scrollbar
-        if(!isset($this->options['show-scrollbar']) || null ===  $this->options['show-scrollbar']){
-            $this->options['show-scrollbar'] = false;
-        }
-        
-        //If we need pagination
-        if(!isset($this->options['show-pagination']) || null ===  $this->options['show-pagination']){
-            $this->options['show-pagination'] = true;
-        }
-        
+        $this->widgetId = $this->getId() . '-' . static::WIDGET_NAME;
 
         if ($this->slides === null || empty($this->slides)) {
             throw new InvalidConfigException("The 'slides' option is required");
@@ -204,7 +225,7 @@ class SwiperSlider extends Widget
         $content[] = $wrapper;
 
         // And if we need pagination
-        if($this->options['show-pagination']){
+        if($this->showPagination){
             $content[] = $pagination;
         }
 
@@ -212,7 +233,7 @@ class SwiperSlider extends Widget
         $content[] = $buttonNext;
 
         // And if we need scrollbar
-        if($this->options['show-scrollbar']){
+        if($this->showScrollbar){
             $content[] = $scrollbar;
         }
         
@@ -280,15 +301,7 @@ class SwiperSlider extends Widget
         $view = $this->getView();
         $pluginParams = [];
         $pluginParams[] = JsHelper::addString("#" . $this->widgetId);
-        $defaultOptions = [
-            "loop" => true,
-            "pagination" => ["el" => static::getItemCssClass(static::PAGINATION)],
-            "navigation" => [
-                    "nextEl" => static::getItemCssClass(static::BUTTON_NEXT),
-                    "prevEl" => static::getItemCssClass(static::BUTTON_PREV),
-            ],
-        ];
-        $clientOptions = ArrayHelper::merge($defaultOptions, $this->clientOptions);
+        $clientOptions = ArrayHelper::merge($this->defaultClientOptions, $this->clientOptions);
         $pluginParams[] = Json::encode($clientOptions);
         $pluginInstance = JsHelper::newJsObject(static::JS_PLUGIN_NAME, $pluginParams);
         $jsVar = JsHelper::initVar("mySwiper", $pluginInstance);
