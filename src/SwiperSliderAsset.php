@@ -50,24 +50,40 @@ class SwiperSliderAsset extends AssetBundle
      * @param array $paths
      * @return void
      */
-    protected function setupAssets(string $ext, array $paths)
+    public function setupAssets(string $ext, array $paths)
     {
         $allowedExts = ['css', 'js'];
-        $fullFiles = [];
-        $minFiles = [];
-
+        
         if(!in_array($ext, $allowedExts)){
             throw new \InvalidArgumentException("Extention {$ext} not allowed");
         }
 
-        foreach($paths as $path){
-            $fullFiles[] = "{$path}.{$ext}";
-            $minFiles[] = "{$path}.min.{$ext}";
-        }
+        
+            $fullFiles[] = static::makePathAssets($ext, $paths);
+            $minFiles[] = static::makePathAssets($ext, $paths, 'min');
+        
 
         $this->$ext = YII_DEBUG  ? $fullFiles : $minFiles;
     }
 
+    /**
+     * Make path for asset
+     *
+     * @param string $ext
+     * @param array $paths
+     * @param boolean|string $pref
+     * @return array
+     */
+    public static function makePathAssets(string $ext, array $paths, $pref = false)
+    {
+        $p = [];
+        foreach($paths as $path){
+            $p[] = $pref ? "{$path}.{$pref}.{$ext}" : "{$path}.{$ext}";
+        }
+
+        return $p;
+    }
+    
     /**
      * Registers this asset bundle with a view.
      * @param View $view the view to be registered with

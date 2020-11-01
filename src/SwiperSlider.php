@@ -41,6 +41,13 @@ class SwiperSlider extends Widget
     const SCROLLBAR = 'scrollbar';
 
     const ASSET_DEFAULT = 'coderius\swiperslider\SwiperSliderAsset';
+
+    /**
+     * Cdn base url
+     *
+     * @var string
+     */
+    const CDN_BASE_URL = "https://unpkg.com/swiper";
     
     /**
      * Generate css class name for item
@@ -115,13 +122,7 @@ class SwiperSlider extends Widget
 
     protected $slideClass = "coderius\swiperslider\SlideDefault";
 
-    /**
-     * Cdn base url
-     *
-     * @var string
-     */
-    protected $cdnBaseUrl = "https://unpkg.com/swiper";
-    
+
     /**
      * @inheritdoc
      */
@@ -172,7 +173,7 @@ class SwiperSlider extends Widget
         $this->trigger(self::EVENT_BEFORE_REGISTER_DEFAULT_ASSET);
         $dafaultAsset = static::ASSET_DEFAULT;
         $bundle = $dafaultAsset::register($view);
-        false === $this->assetFromCdn ? : $bundle->fromCdn($this->cdnBaseUrl);
+        false === $this->assetFromCdn ? : $bundle->fromCdn(static::CDN_BASE_URL);
         $this->trigger(self::EVENT_AFTER_REGISTER_DEFAULT_ASSET);
     }
 
@@ -205,7 +206,7 @@ class SwiperSlider extends Widget
             $slides[] = $htmlSlide;
             $index++;
         }
-        $slides = "\n\t\t" . implode("\n\t\t", $slides) . "\n\t";
+        $slides = "\n" . implode("\n", $slides) . "\n";
 
         //Slides wrapper
         $wrapper = $this->getHtmlElem(static::WRAPPER, [], $slides);
@@ -237,7 +238,7 @@ class SwiperSlider extends Widget
             $content[] = $scrollbar;
         }
         
-        $content = "\n\t" . implode("\n\t", $content) . "\n";
+        $content = "\n" . implode("\n", $content) . "\n";
 
         //Common container
         $container = "\n";

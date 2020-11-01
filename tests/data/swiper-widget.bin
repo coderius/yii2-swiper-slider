@@ -1,0 +1,15 @@
+
+<!-- ***Swiper slider widget id: w0-swiper*** -->
+<div id="w0-swiper" class="swiper-container">
+<div class="swiper-wrapper">
+<div class="swiper-slide">one</div>
+<div class="swiper-slide">two</div>
+<div class="swiper-slide">three</div>
+<div class="swiper-slide">fore</div>
+<div class="swiper-slide">five</div>
+</div>
+<div class="swiper-pagination"></div>
+<div class="swiper-button-prev"></div>
+<div class="swiper-button-next"></div>
+</div>
+<!-- ///Swiper slider widget id: w0-swiper/// -->

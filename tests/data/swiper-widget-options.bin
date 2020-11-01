@@ -1,0 +1,18 @@
+
+<!-- ***Swiper slider widget id: w0-swiper*** -->
+<div id="w0-swiper" class="swiper-container" style="height: 100px;">
+<div class="swiper-wrapper">
+<div class="swiper-slide" style="background-image: url(https://swiperjs.com/demos/images/nature-1.jpg); text-align: center;">some value</div>
+<div class="swiper-slide" style="color: green; text-align: center;">some value 1</div>
+<div class="swiper-slide" style="text-align: center;">one</div>
+<div class="swiper-slide" style="text-align: center;">two</div>
+<div class="swiper-slide" style="text-align: center;">three</div>
+<div class="swiper-slide" style="text-align: center;">fore</div>
+<div class="swiper-slide" style="text-align: center;">five</div>
+</div>
+<div class="swiper-pagination"></div>
+<div class="swiper-button-prev"></div>
+<div class="swiper-button-next"></div>
+<div class="swiper-scrollbar"></div>
+</div>
+<!-- ///Swiper slider widget id: w0-swiper/// -->

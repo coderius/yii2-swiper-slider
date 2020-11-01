@@ -24,7 +24,7 @@ use yii\web\AssetBundle;
  class SwiperSliderAssetTest extends \tests\TestCase
  {
     
-    public function testRegister()
+    public function testRegisterFromSorce()
     {
         $view = $this->getView();
         $this->assertEmpty($view->assetBundles);
@@ -36,4 +36,39 @@ use yii\web\AssetBundle;
         $this->assertContains('swiper-bundle.js', $content);
         $this->assertContains('swiper-bundle.css', $content);
     }
+
+    public function testRegisterFromCdn()
+    {
+        $cdnBaseUrl = SwiperSlider::CDN_BASE_URL;
+        $view = $this->getView();
+        $this->assertEmpty($view->assetBundles);
+        $dafaultAsset = SwiperSlider::ASSET_DEFAULT;
+        $bundle = $dafaultAsset::register($view);
+        $bundle->fromCdn($cdnBaseUrl);
+        $this->assertEquals(1, count($view->assetBundles));
+        $this->assertTrue($view->assetBundles['coderius\\swiperslider\\SwiperSliderAsset'] instanceof AssetBundle);
+        $content = $view->renderFile('@tests/views/layouts/rawlayout.php');
+        $this->assertContains($cdnBaseUrl . '/swiper-bundle.js', $content);
+        $this->assertContains($cdnBaseUrl . '/swiper-bundle.css', $content);
+    }
+
+    public function testMakePathAssets()
+    {
+        // $this->expectException('\InvalidArgumentException');
+        $view = $this->getView();
+        $dafaultAsset = SwiperSlider::ASSET_DEFAULT;
+        $path = $dafaultAsset::makePathAssets('css', ['swiper-bundle'], 'min');
+        $this->assertEquals('swiper-bundle.min.css', $path[0]);
+    }
+
+    public function testSetupAssetsTrowExeption()
+    {
+        $this->expectException('\InvalidArgumentException');
+        $notAllowedExt = 'php';
+        $view = $this->getView();
+        $dafaultAsset = SwiperSlider::ASSET_DEFAULT;
+        $bundle = $dafaultAsset::register($view);
+        $bundle->setupAssets($notAllowedExt, ['swiper-bundle']);
+    }
+
  }

@@ -60,15 +60,5 @@ class JsHelper
         return new \yii\web\JsExpression("new {$instanceName}({$params})");
     }
 
-    /**
-     * literalObject function
-     *
-     * @param array $params
-     * @return string
-     */
-    public static function literalObject($params = [])
-    {
-        return Json::encode($params);
-    }
 
-}    
+}
