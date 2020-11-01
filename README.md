@@ -32,17 +32,17 @@ You can only specify content for slides. This parameter is required.
 
 In view file render widget:
 ```
-            <?php
-                echo SwiperSlider::widget([
-                    'slides' => [
-                        'one',
-                        'two',
-                        'three',
-                        '<img src="https://swiperjs.com/demos/images/nature-1.jpg">',
-                        '<img src="https://swiperjs.com/demos/images/nature-2.jpg">'
-                    ],
-                ]);
-            ?>
+<?php
+    echo SwiperSlider::widget([
+        'slides' => [
+            'one',
+            'two',
+            'three',
+            '<img src="https://swiperjs.com/demos/images/nature-1.jpg">',
+            '<img src="https://swiperjs.com/demos/images/nature-2.jpg">'
+        ],
+    ]);
+?>
 ```
 ### Widget with more options:
 
@@ -50,54 +50,54 @@ You can customize the parameters of the widget
 
 In view file render widget:
 ```
-            <?php
-                echo SwiperSlider::widget([
-                    // 'on ' . SwiperSlider::EVENT_AFTER_REGISTER_DEFAULT_ASSET => function(){
-                    //     CustomAsset::register($view);
-                    // },
-                    'showScrollbar' => true,
-                    'slides' => [
-                        [
-                            'value' => 'ggg',
-                            'options' => [
-                                'style' => ["background-image" => "url(https://swiperjs.com/demos/images/nature-1.jpg)"]
-                            ]
-                        ],
-                        '<img src="https://swiperjs.com/demos/images/nature-2.jpg">',
-                        'one',
-                        'two',
-                        'three',
-                        'fore',
-                        'five'
-                    ],
-                    // 'assetFromCdn' => true,
-                    'clientOptions' => [
-                        'slidesPerView' => 4,
-                        'spaceBetween'=> 30,
-                        'centeredSlides'=> true,
-                        'pagination' => [
-                            'clickable' => true,
-                            'renderBullet' => new \yii\web\JsExpression("function (index, className) {
-                                    return '<span class=\"' + className + '\">' + (index + 1) + '</span>';
-                                },
-                            "),
-                            ],
-                            "scrollbar" => [
-                                "el" => SwiperSlider::getItemCssClass(SwiperSlider::SCROLLBAR),
-                                "hide" => true,
-                            ],
-                    ],
+<?php
+    echo SwiperSlider::widget([
+        // 'on ' . SwiperSlider::EVENT_AFTER_REGISTER_DEFAULT_ASSET => function(){
+        //     CustomAsset::register($view);
+        // },
+        'showScrollbar' => true,
+        'slides' => [
+            [
+                'value' => 'ggg',
+                'options' => [
+                    'style' => ["background-image" => "url(https://swiperjs.com/demos/images/nature-1.jpg)"]
+                ]
+            ],
+            '<img src="https://swiperjs.com/demos/images/nature-2.jpg">',
+            'one',
+            'two',
+            'three',
+            'fore',
+            'five'
+        ],
+        // 'assetFromCdn' => true,
+        'clientOptions' => [
+            'slidesPerView' => 4,
+            'spaceBetween'=> 30,
+            'centeredSlides'=> true,
+            'pagination' => [
+                'clickable' => true,
+                'renderBullet' => new \yii\web\JsExpression("function (index, className) {
+                        return '<span class=\"' + className + '\">' + (index + 1) + '</span>';
+                    },
+                "),
+                ],
+                "scrollbar" => [
+                    "el" => SwiperSlider::getItemCssClass(SwiperSlider::SCROLLBAR),
+                    "hide" => true,
+                ],
+        ],
 
-                    //Global styles to elements. If create styles for all slides
-                    'options' => [
-                        'styles' => [
-                            SwiperSlider::CONTAINER => ["height" => "100px"],
-                            SwiperSlider::SLIDE => ["text-align" => "center"],
-                        ],
-                    ],
-                        
-                ]);
-            ?>
+        //Global styles to elements. If create styles for all slides
+        'options' => [
+            'styles' => [
+                SwiperSlider::CONTAINER => ["height" => "100px"],
+                SwiperSlider::SLIDE => ["text-align" => "center"],
+            ],
+        ],
+            
+    ]);
+?>
 ```
 
 ### Widget options
