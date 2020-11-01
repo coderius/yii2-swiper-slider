@@ -1,13 +1,13 @@
 # Yii2 swiper slider widget
 [![Software License](https://img.shields.io/github/license/coderius/yii2-swiper-slider)](LICENSE.md)
-[![Code Coverage](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/?branch=master)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
-[![Code Quality](https://img.shields.io/scrutinizer/quality/g/coderius/yii2-swiper-slider.svg?style=flat-square)](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/?branch=master)
-[![CodeFactor](https://img.shields.io/codefactor/grade/github/coderius/yii2-swiper-slider)](https://www.codefactor.io/repository/github/coderius/yii2-swiper-slider)
+[![Code Coverage](https://scrutinizer-ci.com/g/coderius/yii2-hit-counter/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/coderius/yii2-hit-counter/?branch=master)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/coderius/yii2-hit-counter/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/coderius/yii2-hit-counter/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/coderius/yii2-hit-counter/?branch=master)
+[![CodeFactor](https://www.codefactor.io/repository/github/coderius/yii2-swiper-slider/badge)](https://www.codefactor.io/repository/github/coderius/yii2-swiper-slider)
 
 
 ## About
-This is yii2 extention widget renders slider [Swiper](https://github.com/nolimits4web/swiper).
+This is yii2 extention widget renders js slider [Swiper](https://github.com/nolimits4web/swiper).
 
 ## Installation
 
