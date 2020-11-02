@@ -1,7 +1,6 @@
 # Yii2 swiper slider widget
 [![Software License](https://img.shields.io/github/license/coderius/yii2-swiper-slider)](LICENSE.md)
-[![Code Coverage](https://scrutinizer-ci.com/g/coderius/yii2-hit-counter/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/coderius/yii2-hit-counter/?branch=master)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+[![Code Coverage](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/?branch=master)
 [![CodeFactor](https://www.codefactor.io/repository/github/coderius/yii2-swiper-slider/badge)](https://www.codefactor.io/repository/github/coderius/yii2-swiper-slider)
 
