@@ -2,11 +2,19 @@ build:
     tests:
         override:
             - php-scrutinizer-run
+            
+    nodes:
+        coverage:
+        tests:
+            override:
             - command: ./vendor/bin/phpunit
-            coverage:
-              file: build/logs/clover.xml   # <- Set this to where we find the coverage data.
-                                          #    The path is relative to the current directory.
-              format: clover
+                coverage:
+                file: build/logs/clover.xml
+    
+                # These formats are supported:
+                # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc, lcov
+                format: clover
+
 filter:
     excluded_paths: [tests/*]
 checks:
