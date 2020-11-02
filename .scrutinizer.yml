@@ -7,9 +7,9 @@ build:
         coverage:
             tests:
                 override:
-                    - command: ./vendor/bin/phpunit
+                    - command: phpunit
                       coverage:
-                        file: build/logs/clover.xml
+                        file: logs/clover.xml
             
                         # These formats are supported:
                         # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc, lcov
