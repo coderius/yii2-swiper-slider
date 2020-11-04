@@ -52,6 +52,20 @@ use yii\web\AssetBundle;
         $this->assertContains($cdnBaseUrl . '/swiper-bundle.css', $content);
     }
 
+    public function testRegisterFromCdnByStaticFunctionRegister()
+    {
+        $cdnBaseUrl = SwiperSlider::CDN_BASE_URL;
+        $view = $this->getView();
+        $this->assertEmpty($view->assetBundles);
+        $dafaultAsset = SwiperSlider::ASSET_DEFAULT;
+        $dafaultAsset::register($view, $cdnBaseUrl);
+        $this->assertEquals(1, count($view->assetBundles));
+        $this->assertTrue($view->assetBundles['coderius\\swiperslider\\SwiperSliderAsset'] instanceof AssetBundle);
+        $content = $view->renderFile('@tests/views/layouts/rawlayout.php');
+        $this->assertContains($cdnBaseUrl . '/swiper-bundle.js', $content);
+        $this->assertContains($cdnBaseUrl . '/swiper-bundle.css', $content);
+    }
+
     public function testMakePathAssets()
     {
         // $this->expectException('\InvalidArgumentException');

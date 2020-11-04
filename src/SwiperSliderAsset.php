@@ -57,7 +57,7 @@ class SwiperSliderAsset extends AssetBundle
         if(!in_array($ext, $allowedExts)){
             throw new \InvalidArgumentException("Extention {$ext} not allowed");
         }
-        
+
         $fullFiles = [];
         $minFiles = [];
 
@@ -93,8 +93,13 @@ class SwiperSliderAsset extends AssetBundle
      */
     public static function register($view, $cdn = false)
     {
-        //code hire ...
-        return parent::register($view);
+        $bundle = parent::register($view);
+
+        if($cdn){
+            $bundle->fromCdn($cdn);
+        }
+        
+        return $bundle;
     }
 
 }
