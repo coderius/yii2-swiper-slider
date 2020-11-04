@@ -21,7 +21,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 First download extention. Run the command in the terminal:
 ```
-composer require "coderius/yii2-swiper-slider"
+composer require coderius/yii2-swiper-slider:^1.0
 ```
 
 or add in composer.json
