@@ -36,7 +36,7 @@ class SwiperSliderAsset extends AssetBundle
      * @param string $cdn
      * @return void
      */
-    public function fromCdn(string $cdn)
+    public function fromCdn($cdn)
     {
         $this->sourcePath = false;
         $this->baseUrl = $cdn;
@@ -50,7 +50,7 @@ class SwiperSliderAsset extends AssetBundle
      * @param array $paths
      * @return void
      */
-    public function setupAssets(string $ext, array $paths)
+    public function setupAssets($ext, $paths)
     {
         $allowedExts = ['css', 'js'];
         
@@ -74,7 +74,7 @@ class SwiperSliderAsset extends AssetBundle
      * @param boolean|string $pref
      * @return array
      */
-    public static function makePathAssets(string $ext, array $paths, $pref = false)
+    public static function makePathAssets($ext, $paths, $pref = false)
     {
         $p = [];
         foreach($paths as $path){

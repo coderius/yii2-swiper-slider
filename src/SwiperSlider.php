@@ -56,7 +56,7 @@ class SwiperSlider extends Widget
      * @param boolean $prefix
      * @return string
      */
-    public static function getItemCssClass(string $itemName, $prefix = true)
+    public static function getItemCssClass($itemName, $prefix = true)
     {
         $prefix = $prefix ? "." : "";
         return $prefix . self::WIDGET_NAME . "-" . $itemName;
@@ -258,7 +258,7 @@ class SwiperSlider extends Widget
      * @param string $tag
      * @return string
      */
-    protected function getHtmlElem(string $itemName, $options = [], $content = '', $tag = 'div')
+    protected function getHtmlElem($itemName, $options = [], $content = '', $tag = 'div')
     {
         $options = $this->mergeGlobalStyles($itemName, $options);
         return Html::tag($tag, $content, $options);
@@ -286,7 +286,7 @@ class SwiperSlider extends Widget
      * @param [type] $options
      * @return void
      */
-    protected function mergeGlobalStyles(string $itemName, $options){
+    protected function mergeGlobalStyles($itemName, $options){
         $options = ArrayHelper::merge(['class' => static::getItemCssClass($itemName, false)], $options);
         $style = !empty($this->options['styles'][$itemName]) ? $this->options['styles'][$itemName] : null;
         Html::addCssStyle($options, $style);
@@ -309,9 +309,5 @@ class SwiperSlider extends Widget
 
         $view->registerJs($jsVar, \yii\web\View::POS_END);
     }
-
-    
-
-    
 
 }
