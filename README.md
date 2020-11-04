@@ -11,6 +11,10 @@
 This is yii2 extention widget renders js slider [Swiper](https://github.com/nolimits4web/swiper).
 This widget allows render slider in web page simply. Created for Yii2 framework.
 
+![Yii2 swiper slider widget example](https://raw.githubusercontent.com/coderius/github-images/master/ezgif.com-gif-maker.gif "Yii2 swiper slider widget example")
+
+![Yii2 swiper slider widget example](https://raw.githubusercontent.com/coderius/github-images/master/FireShot Capture 015 - Swiper Demos - swiperjs.com.png "Yii2 swiper slider widget example")
+
 ## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
