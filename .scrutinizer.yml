@@ -1,26 +1,5 @@
-build:
-    dependencies:
-        before:
-            - composer install
-    tests:
-        override:
-            - php-scrutinizer-run
-            
-    nodes:
-        coverage:
-            tests:
-                override:
-                    - command: phpunit
-                      coverage:
-                        file: logs/clover.xml
-            
-                        # These formats are supported:
-                        # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc, lcov
-                        format: clover
-
 filter:
-    excluded_paths:
-        - tests/*
+    excluded_paths: [tests/*]
 checks:
     php:
         code_rating: true
@@ -38,11 +17,11 @@ checks:
         fix_identation_4spaces: true
         fix_doc_comments: true
 tools:
-    # external_code_coverage:
-    #     timeout: 600
-    #     runs: 3
+    external_code_coverage:
+        timeout: 600
+        runs: 3
     php_analyzer: true
-    php_code_coverage: true
+    php_code_coverage: false
     php_code_sniffer:
         config:
             standard: PSR2
