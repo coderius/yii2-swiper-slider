@@ -2,7 +2,7 @@
 [![Software License](https://img.shields.io/github/license/coderius/yii2-swiper-slider)](LICENSE.md)
 [![Code Coverage](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/?branch=master)
 <!-- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/coderius/yii2-swiper-slider/?branch=master) -->
-[![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/coderius/yii2-swiper-slider)
+![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/coderius/yii2-swiper-slider)
 [![CodeFactor](https://www.codefactor.io/repository/github/coderius/yii2-swiper-slider/badge)](https://www.codefactor.io/repository/github/coderius/yii2-swiper-slider)
 [![Total Downloads](https://img.shields.io/packagist/dt/coderius/yii2-swiper-slider.svg?style=flat-square)](https://packagist.org/packages/coderius/yii2-swiper-slider)
 
