@@ -10,7 +10,7 @@ php:
 
 install:
   - composer self-update
-  - composer global require "fxp/composer-asset-plugin:*"
+  - composer global require "fxp/composer-asset-plugin:dev-master"
   - composer install
 
 before_script:
