@@ -1,4 +1,7 @@
 build:
+    dependencies:
+        before:
+            - composer install
     tests:
         override:
             - php-scrutinizer-run
