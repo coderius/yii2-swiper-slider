@@ -31,6 +31,7 @@ namespace PHPUnit\Framework {
                 $parentClassMethods = get_class_methods('PHPUnit_Framework_TestCase');
                 if (in_array('expectExceptionMessage', $parentClassMethods)) {
                     parent::expectExceptionMessage($message);
+
                     return;
                 }
                 $this->setExpectedException($this->getExpectedException(), $message);
@@ -44,6 +45,7 @@ namespace PHPUnit\Framework {
                 $parentClassMethods = get_class_methods('PHPUnit_Framework_TestCase');
                 if (in_array('expectExceptionMessageRegExp', $parentClassMethods)) {
                     parent::expectExceptionMessageRegExp($messageRegExp);
+
                     return;
                 }
                 $this->setExpectedExceptionRegExp($this->getExpectedException(), $messageRegExp);
