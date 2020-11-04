@@ -57,10 +57,12 @@ class SwiperSliderAsset extends AssetBundle
         if(!in_array($ext, $allowedExts)){
             throw new \InvalidArgumentException("Extention {$ext} not allowed");
         }
-
         
-            $fullFiles[] = static::makePathAssets($ext, $paths);
-            $minFiles[] = static::makePathAssets($ext, $paths, 'min');
+        $fullFiles = [];
+        $minFiles = [];
+
+        $fullFiles[] = static::makePathAssets($ext, $paths);
+        $minFiles[] = static::makePathAssets($ext, $paths, 'min');
         
 
         $this->$ext = YII_DEBUG  ? $fullFiles : $minFiles;
