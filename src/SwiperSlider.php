@@ -1,36 +1,32 @@
 <?php
 /**
- * Created on Tue Oct 27 2020
- * 
- * @package yii2-extentions
+ * Created on Tue Oct 27 2020.
+ *
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @copyright Copyright (c) 2010 - 2020 Sergey Coderius
- *
  * @author Sergey Coderius <sunrise4fun@gmail.com>
- * @link https://github.com/coderius - My github. See more my packages here...
- * @link https://coderius.biz.ua/ - My dev. blog
- * 
+ *
+ * @see https://github.com/coderius - My github. See more my packages here...
+ * @see https://coderius.biz.ua/ - My dev. blog
+ *
  * Contact email: sunrise4fun@gmail.com - Have suggestions, contact me |:=)
  */
 
 namespace coderius\swiperslider;
 
-use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
-use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use Closure;
-use coderius\swiperslider\JsHelper;
+use yii\helpers\Json;
 
 class SwiperSlider extends Widget
 {
-    const EVENT_BEFORE_REGISTER_DEFAULT_ASSET = "beforeRegisterDefaultAsset";
-    const EVENT_AFTER_REGISTER_DEFAULT_ASSET = "afterRegisterDefaultAsset";
-    
-    const WIDGET_NAME = "swiper";
-    const JS_PLUGIN_NAME = "Swiper";
+    const EVENT_BEFORE_REGISTER_DEFAULT_ASSET = 'beforeRegisterDefaultAsset';
+    const EVENT_AFTER_REGISTER_DEFAULT_ASSET = 'afterRegisterDefaultAsset';
+
+    const WIDGET_NAME = 'swiper';
+    const JS_PLUGIN_NAME = 'Swiper';
 
     const CONTAINER = 'container';
     const WRAPPER = 'wrapper';
@@ -43,25 +39,27 @@ class SwiperSlider extends Widget
     const ASSET_DEFAULT = 'coderius\swiperslider\SwiperSliderAsset';
 
     /**
-     * Cdn base url
+     * Cdn base url.
      *
      * @var string
      */
-    const CDN_BASE_URL = "https://unpkg.com/swiper";
-    
+    const CDN_BASE_URL = 'https://unpkg.com/swiper';
+
     /**
-     * Generate css class name for item
+     * Generate css class name for item.
      *
      * @param string $itemName
-     * @param boolean $prefix
+     * @param bool   $prefix
+     *
      * @return string
      */
     public static function getItemCssClass($itemName, $prefix = true)
     {
-        $prefix = $prefix ? "." : "";
-        return $prefix . self::WIDGET_NAME . "-" . $itemName;
+        $prefix = $prefix ? '.' : '';
+
+        return $prefix.self::WIDGET_NAME.'-'.$itemName;
     }
-  
+
     /**
      * Widget options like inline styles etc.
      *
@@ -69,52 +67,50 @@ class SwiperSlider extends Widget
      */
     public $options = [];
 
-
-
     /**
-     * If we need pagination
+     * If we need pagination.
      *
      * @var boolean
      */
     public $showPagination = true;
 
     /**
-     * If we need scrollbar
+     * If we need scrollbar.
      *
      * @var boolean
      */
     public $showScrollbar = false;
 
     /**
-     * Options in js plugin instance
+     * Options in js plugin instance.
      *
      * @var array
      */
     public $clientOptions = [];
 
     /**
-     * Default options for js plugin
+     * Default options for js plugin.
      *
      * @var array
      */
     public $defaultClientOptions = [];
 
     /**
-     * If is allowed cdn base url to assets
+     * If is allowed cdn base url to assets.
      *
      * @var boolean
      */
     public $assetFromCdn = false;
 
     /**
-     * Sliders
+     * Sliders.
      *
      * @var array
      */
     public $slides = [];
 
     /**
-     * Uniq widget name
+     * Uniq widget name.
      *
      * @var string
      */
@@ -122,32 +118,31 @@ class SwiperSlider extends Widget
 
     protected $slideClass = "coderius\swiperslider\SlideDefault";
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
         parent::init();
-        
+
         $this->defaultClientOptions = [
-            "loop" => true,
-            "pagination" => ["el" => static::getItemCssClass(static::PAGINATION)],
-            "navigation" => [
-                    "nextEl" => static::getItemCssClass(static::BUTTON_NEXT),
-                    "prevEl" => static::getItemCssClass(static::BUTTON_PREV),
+            'loop' => true,
+            'pagination' => ['el' => static::getItemCssClass(static::PAGINATION)],
+            'navigation' => [
+                    'nextEl' => static::getItemCssClass(static::BUTTON_NEXT),
+                    'prevEl' => static::getItemCssClass(static::BUTTON_PREV),
             ],
         ];
 
-        $this->widgetId = $this->getId() . '-' . static::WIDGET_NAME;
+        $this->widgetId = $this->getId().'-'.static::WIDGET_NAME;
 
         if ($this->slides === null || empty($this->slides)) {
             throw new InvalidConfigException("The 'slides' option is required");
         }
-    }    
-    
+    }
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function run()
     {
@@ -155,7 +150,7 @@ class SwiperSlider extends Widget
         $this->registerPluginJs();
         echo $this->makeHtml();
     }
-    
+
     /**
      * Processed registration all needed assets to widget
      * We can register custom asset by CustomAsset::register($view) by event hendler in widget options
@@ -163,33 +158,34 @@ class SwiperSlider extends Widget
      *      'on ' . SwiperSlider::EVENT_AFTER_REGISTER_DEFAULT_ASSET => function(){
      *                  CustomAsset::register($view)
      *       },
-     *  ... 
-     *  ]);
-     * 
+     *  ...
+     *  ]);.
+     *
      * @return void
      */
-    protected function registerAssets(){
+    protected function registerAssets()
+    {
         $view = $this->getView();
         $this->trigger(self::EVENT_BEFORE_REGISTER_DEFAULT_ASSET);
         $dafaultAsset = static::ASSET_DEFAULT;
         $bundle = $dafaultAsset::register($view);
-        false === $this->assetFromCdn ? : $bundle->fromCdn(static::CDN_BASE_URL);
+        false === $this->assetFromCdn ?: $bundle->fromCdn(static::CDN_BASE_URL);
         $this->trigger(self::EVENT_AFTER_REGISTER_DEFAULT_ASSET);
     }
 
     /**
-     * Create html elements for widget
+     * Create html elements for widget.
      *
      * @return void
      */
-    protected function makeHtml(){
-
+    protected function makeHtml()
+    {
         //Slides
         //S
         $slides = [];
         $index = 0;
-        foreach($this->slides as $slide){
-            if(is_string($slide)){
+        foreach ($this->slides as $slide) {
+            if (is_string($slide)) {
                 $htmlSlide = $this->getHtmlElem(static::SLIDE, [], $slide);
             } else {
                 //Mergin current slide attributes with global widget options styles pasted to all elements on this type
@@ -200,13 +196,13 @@ class SwiperSlider extends Widget
                     'slider' => $this,
                 ], $slide));
                 //Invoke function in instance SlideDefault::renderSlideHtml
-                $htmlSlide = $inctanseSlide->renderSlideHtml("div", $index);
+                $htmlSlide = $inctanseSlide->renderSlideHtml('div', $index);
             }
 
             $slides[] = $htmlSlide;
-            $index++;
+            ++$index;
         }
-        $slides = "\n" . implode("\n", $slides) . "\n";
+        $slides = "\n".implode("\n", $slides)."\n";
 
         //Slides wrapper
         $wrapper = $this->getHtmlElem(static::WRAPPER, [], $slides);
@@ -226,7 +222,7 @@ class SwiperSlider extends Widget
         $content[] = $wrapper;
 
         // And if we need pagination
-        if($this->showPagination){
+        if ($this->showPagination) {
             $content[] = $pagination;
         }
 
@@ -234,11 +230,11 @@ class SwiperSlider extends Widget
         $content[] = $buttonNext;
 
         // And if we need scrollbar
-        if($this->showScrollbar){
+        if ($this->showScrollbar) {
             $content[] = $scrollbar;
         }
-        
-        $content = "\n" . implode("\n", $content) . "\n";
+
+        $content = "\n".implode("\n", $content)."\n";
 
         //Common container
         $container = "\n";
@@ -246,27 +242,30 @@ class SwiperSlider extends Widget
         $container .= "\n";
         $container .= $this->getHtmlElem(static::CONTAINER, ['id' => $this->widgetId], $content);
         $container .= "\n<!-- ///Swiper slider widget id: {$this->widgetId}/// -->";
+
         return  $container;
     }
 
     /**
-     * getHtmlElem function help create html element and add custom inline css styles
+     * getHtmlElem function help create html element and add custom inline css styles.
      *
      * @param string $itemName
-     * @param array $options
+     * @param array  $options
      * @param string $content
      * @param string $tag
+     *
      * @return string
      */
     protected function getHtmlElem($itemName, $options = [], $content = '', $tag = 'div')
     {
         $options = $this->mergeGlobalStyles($itemName, $options);
+
         return Html::tag($tag, $content, $options);
     }
 
     /**
      * Merge options array with default params like `class` and global options pasted when widget created
-     * Example: 
+     * Example:
      * echo SwiperSlider::widget([
      * ...
      * 'options' => [
@@ -277,37 +276,40 @@ class SwiperSlider extends Widget
      *      'show-scrollbar' => true,
      *  ],
      * ...
-     * ]);
-     * 
+     * ]);.
+     *
      * In this example we merge options for html elements `container`  and  `slide` and default created options `class` for them getted
      * by function static::getItemCssClass($itemName, false)
      *
      * @param string $itemName
      * @param [type] $options
+     *
      * @return void
      */
-    protected function mergeGlobalStyles($itemName, $options){
+    protected function mergeGlobalStyles($itemName, $options)
+    {
         $options = ArrayHelper::merge(['class' => static::getItemCssClass($itemName, false)], $options);
         $style = !empty($this->options['styles'][$itemName]) ? $this->options['styles'][$itemName] : null;
         Html::addCssStyle($options, $style);
+
         return $options;
     }
 
     /**
-     * registerPluginJs function
+     * registerPluginJs function.
      *
      * @return void
      */
-    protected function registerPluginJs(){
+    protected function registerPluginJs()
+    {
         $view = $this->getView();
         $pluginParams = [];
-        $pluginParams[] = JsHelper::addString("#" . $this->widgetId);
+        $pluginParams[] = JsHelper::addString('#'.$this->widgetId);
         $clientOptions = ArrayHelper::merge($this->defaultClientOptions, $this->clientOptions);
         $pluginParams[] = Json::encode($clientOptions);
         $pluginInstance = JsHelper::newJsObject(static::JS_PLUGIN_NAME, $pluginParams);
-        $jsVar = JsHelper::initVar("mySwiper", $pluginInstance);
+        $jsVar = JsHelper::initVar('mySwiper', $pluginInstance);
 
         $view->registerJs($jsVar, \yii\web\View::POS_END);
     }
-
 }
