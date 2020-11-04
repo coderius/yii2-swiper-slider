@@ -38,7 +38,7 @@ class SwiperSliderAsset extends AssetBundle
      */
     public function fromCdn($cdn)
     {
-        $this->sourcePath = false;
+        $this->sourcePath = null;
         $this->baseUrl = $cdn;
     }
 
