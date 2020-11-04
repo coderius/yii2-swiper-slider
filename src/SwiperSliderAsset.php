@@ -12,6 +12,7 @@ namespace coderius\swiperslider;
 
 use Yii;
 use yii\web\AssetBundle;
+
 /**
  * Asset bundle SwiperSlider
  */
@@ -54,7 +55,7 @@ class SwiperSliderAsset extends AssetBundle
     {
         $allowedExts = ['css', 'js'];
         
-        if(!in_array($ext, $allowedExts)){
+        if (!in_array($ext, $allowedExts)) {
             throw new \InvalidArgumentException("Extention {$ext} not allowed");
         }
 
@@ -79,7 +80,7 @@ class SwiperSliderAsset extends AssetBundle
     public static function makePathAssets($ext, $paths, $pref = false)
     {
         $p = [];
-        foreach($paths as $path){
+        foreach ($paths as $path) {
             $p[] = $pref ? "{$path}.{$pref}.{$ext}" : "{$path}.{$ext}";
         }
 
@@ -95,12 +96,10 @@ class SwiperSliderAsset extends AssetBundle
     {
         $bundle = parent::register($view);
 
-        if($cdn){
+        if ($cdn) {
             $bundle->fromCdn($cdn);
         }
         
         return $bundle;
     }
-
 }
-

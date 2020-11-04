@@ -1,7 +1,7 @@
 <?php
 /**
  * Created on Tue Oct 27 2020
- * 
+ *
  * @package yii2-extentions
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @copyright Copyright (c) 2010 - 2020 Sergey Coderius
@@ -9,7 +9,7 @@
  * @author Sergey Coderius <sunrise4fun@gmail.com>
  * @link https://github.com/coderius - My github. See more my packages here...
  * @link https://coderius.biz.ua/ - My dev. blog
- * 
+ *
  * Contact email: sunrise4fun@gmail.com - Have suggestions, contact me |:=)
  */
 
@@ -144,7 +144,7 @@ class SwiperSlider extends Widget
         if ($this->slides === null || empty($this->slides)) {
             throw new InvalidConfigException("The 'slides' option is required");
         }
-    }    
+    }
     
     /**
      * @inheritdoc
@@ -163,12 +163,13 @@ class SwiperSlider extends Widget
      *      'on ' . SwiperSlider::EVENT_AFTER_REGISTER_DEFAULT_ASSET => function(){
      *                  CustomAsset::register($view)
      *       },
-     *  ... 
+     *  ...
      *  ]);
-     * 
+     *
      * @return void
      */
-    protected function registerAssets(){
+    protected function registerAssets()
+    {
         $view = $this->getView();
         $this->trigger(self::EVENT_BEFORE_REGISTER_DEFAULT_ASSET);
         $dafaultAsset = static::ASSET_DEFAULT;
@@ -182,14 +183,15 @@ class SwiperSlider extends Widget
      *
      * @return void
      */
-    protected function makeHtml(){
+    protected function makeHtml()
+    {
 
         //Slides
         //S
         $slides = [];
         $index = 0;
-        foreach($this->slides as $slide){
-            if(is_string($slide)){
+        foreach ($this->slides as $slide) {
+            if (is_string($slide)) {
                 $htmlSlide = $this->getHtmlElem(static::SLIDE, [], $slide);
             } else {
                 //Mergin current slide attributes with global widget options styles pasted to all elements on this type
@@ -226,7 +228,7 @@ class SwiperSlider extends Widget
         $content[] = $wrapper;
 
         // And if we need pagination
-        if($this->showPagination){
+        if ($this->showPagination) {
             $content[] = $pagination;
         }
 
@@ -234,7 +236,7 @@ class SwiperSlider extends Widget
         $content[] = $buttonNext;
 
         // And if we need scrollbar
-        if($this->showScrollbar){
+        if ($this->showScrollbar) {
             $content[] = $scrollbar;
         }
         
@@ -266,7 +268,7 @@ class SwiperSlider extends Widget
 
     /**
      * Merge options array with default params like `class` and global options pasted when widget created
-     * Example: 
+     * Example:
      * echo SwiperSlider::widget([
      * ...
      * 'options' => [
@@ -278,7 +280,7 @@ class SwiperSlider extends Widget
      *  ],
      * ...
      * ]);
-     * 
+     *
      * In this example we merge options for html elements `container`  and  `slide` and default created options `class` for them getted
      * by function static::getItemCssClass($itemName, false)
      *
@@ -286,7 +288,8 @@ class SwiperSlider extends Widget
      * @param [type] $options
      * @return void
      */
-    protected function mergeGlobalStyles($itemName, $options){
+    protected function mergeGlobalStyles($itemName, $options)
+    {
         $options = ArrayHelper::merge(['class' => static::getItemCssClass($itemName, false)], $options);
         $style = !empty($this->options['styles'][$itemName]) ? $this->options['styles'][$itemName] : null;
         Html::addCssStyle($options, $style);
@@ -298,7 +301,8 @@ class SwiperSlider extends Widget
      *
      * @return void
      */
-    protected function registerPluginJs(){
+    protected function registerPluginJs()
+    {
         $view = $this->getView();
         $pluginParams = [];
         $pluginParams[] = JsHelper::addString("#" . $this->widgetId);
@@ -309,5 +313,4 @@ class SwiperSlider extends Widget
 
         $view->registerJs($jsVar, \yii\web\View::POS_END);
     }
-
 }

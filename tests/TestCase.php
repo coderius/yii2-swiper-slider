@@ -1,7 +1,7 @@
 <?php
 /**
  * Created on Sun Nov 01 2020
- * 
+ *
  * @package yii2-extentions
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @copyright Copyright (c) 2010 - 2020 Sergey Coderius
@@ -9,7 +9,7 @@
  * @author Sergey Coderius <sunrise4fun@gmail.com>
  * @link https://github.com/coderius - My github. See more my packages here...
  * @link https://coderius.biz.ua/ - My dev. blog
- * 
+ *
  * Contact email: sunrise4fun@gmail.com - Have suggestions, contact me |:=)
  */
 
@@ -142,6 +142,4 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         return dirname(__DIR__) . '/vendor';
     }
-
-    
 }
