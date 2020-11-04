@@ -13,7 +13,7 @@ This widget allows render slider in web page simply. Created for Yii2 framework.
 
 ![Yii2 swiper slider widget example](https://raw.githubusercontent.com/coderius/github-images/master/ezgif.com-gif-maker.gif "Yii2 swiper slider widget example")
 
-![Yii2 swiper slider widget example](https://raw.githubusercontent.com/coderius/github-images/master/FireShot Capture 015 - Swiper Demos - swiperjs.com.png "Yii2 swiper slider widget example")
+![Yii2 swiper slider widget example](https://raw.githubusercontent.com/coderius/github-images/master/FireShotCapture015-SwiperDemos-swiperjs.com.png "Yii2 swiper slider widget example")
 
 ## Installation
 
