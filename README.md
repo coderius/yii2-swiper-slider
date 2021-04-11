@@ -89,7 +89,7 @@ In view file render widget:
                 "),
                 ],
                 "scrollbar" => [
-                    "el" => SwiperSlider::getItemCssClass(SwiperSlider::SCROLLBAR),
+                    "el" => \coderius\swiperslider\SwiperSlider::getItemCssClass(SwiperSlider::SCROLLBAR),
                     "hide" => true,
                 ],
         ],
@@ -116,7 +116,7 @@ Usage in widget:
 ```
 echo \coderius\swiperslider\SwiperSlider::widget([
     ...
-'on ' . SwiperSlider::EVENT_AFTER_REGISTER_DEFAULT_ASSET => function(){
+'on ' . \coderius\swiperslider\SwiperSlider::EVENT_AFTER_REGISTER_DEFAULT_ASSET => function(){
         CustomAsset::register($view);
 },
 ```
@@ -160,7 +160,7 @@ plain JS, make use of `JsExpression`. That class was made by Yii for that specif
         "),
         ],
         "scrollbar" => [
-            "el" => SwiperSlider::getItemCssClass(SwiperSlider::SCROLLBAR),
+            "el" => \coderius\swiperslider\SwiperSlider::getItemCssClass(SwiperSlider::SCROLLBAR),
             "hide" => true,
         ],
 ],
@@ -171,10 +171,10 @@ This params allowed only for all template items:
 //Global styles to elements. If create styles for all slides
 'options' => [
     'styles' => [
-        SwiperSlider::CONTAINER => ["height" => "100px"],
-        SwiperSlider::SLIDE => ["text-align" => "center"],
+        \coderius\swiperslider\SwiperSlider::CONTAINER => ["height" => "100px"],
+        \coderius\swiperslider\SwiperSlider::SLIDE => ["text-align" => "center"],
     ],
-    'class' => [SwiperSlider::CONTAINER => ["myClass"],]
+    'class' => [\coderius\swiperslider\SwiperSlider::CONTAINER => ["myClass"],]
 ],
 
 ```
