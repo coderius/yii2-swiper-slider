@@ -39,7 +39,7 @@ You can only specify content for slides. This parameter is required.
 In view file render widget:
 ```
 <?php
-    echo SwiperSlider::widget([
+    echo \coderius\swiperslider\SwiperSlider::widget([
         'slides' => [
             'one',
             'two',
@@ -57,8 +57,8 @@ You can customize the parameters of the widget
 In view file render widget:
 ```
 <?php
-    echo SwiperSlider::widget([
-        // 'on ' . SwiperSlider::EVENT_AFTER_REGISTER_DEFAULT_ASSET => function(){
+    echo \coderius\swiperslider\SwiperSlider::widget([
+        // 'on ' . \coderius\swiperslider\SwiperSlider::EVENT_AFTER_REGISTER_DEFAULT_ASSET => function(){
         //     CustomAsset::register($view);
         // },
         'showScrollbar' => true,
@@ -97,8 +97,8 @@ In view file render widget:
         //Global styles to elements. If create styles for all slides
         'options' => [
             'styles' => [
-                SwiperSlider::CONTAINER => ["height" => "100px"],
-                SwiperSlider::SLIDE => ["text-align" => "center"],
+                \coderius\swiperslider\SwiperSlider::CONTAINER => ["height" => "100px"],
+                \coderius\swiperslider\SwiperSlider::SLIDE => ["text-align" => "center"],
             ],
         ],
             
@@ -114,7 +114,7 @@ __Events__:
 
 Usage in widget:
 ```
-echo SwiperSlider::widget([
+echo \coderius\swiperslider\SwiperSlider::widget([
     ...
 'on ' . SwiperSlider::EVENT_AFTER_REGISTER_DEFAULT_ASSET => function(){
         CustomAsset::register($view);
