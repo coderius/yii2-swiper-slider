@@ -36,7 +36,7 @@ and run `composer update`
 
 You can only specify content for slides. This parameter is required.
 
-In all files with widget past namespace to use class like:
+In all files with widget put namespace to use class like:
 ```
 <?php
 namespace yournamespace
